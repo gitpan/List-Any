@@ -1,0 +1,8 @@
+Any.xs
+Changes
+Makefile.PL
+MANIFEST
+README
+t/List-Any.t
+lib/List/Any.pm
+META.yml                                 Module meta-data (added by MakeMaker)
