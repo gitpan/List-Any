@@ -14,9 +14,88 @@ use vars qw($VERSION @ISA @EXPORT_OK %EXPORT_TAGS);
 
 @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
-bootstrap List::Any $VERSION;
+eval {
+    local $ENV{PERL_DL_NONLAZY} = 0 if $ENV{PERL_DL_NONLAZY};
+    bootstrap List::Any $VERSION;
+    1;
+};
+
+eval <<'EOP' if not defined &any;
+
+sub any (&@) {
+    my $f = shift;
+    return if ! @_;
+    for (@_) {
+	return 1 if $f->();
+    }
+    return 0;
+}
+    
+sub all (&@) {
+    my $f = shift;
+    return if ! @_;
+    for (@_) {
+	return 0 if ! $f->();
+    }
+    return 1;
+}
+
+sub none (&@) {
+    my $f = shift;
+    return if ! @_;
+    for (@_) {
+	return 0 if $f->();
+    }
+    return 1;
+}
+
+sub notall (&@) {
+    my $f = shift;
+    return if ! @_;
+    for (@_) {
+	return 1 if ! $f->();
+    }
+    return 0;
+}
+
+sub true (&@) {
+    my $f = shift;
+    my $count = 0;
+    for (@_) {
+	$count++ if $f->();
+    }
+    return $count;
+}
+
+sub false (&@) {
+    my $f = shift;
+    my $count = 0;
+    for (@_) {
+	$count++ if ! $f->();
+    }
+    return $count;
+}
+
+sub firstidx (&@) {
+    my $f = shift;
+    for my $i (0 .. $#_) {
+	local *_ = \$_[$i];	# Necessary for cases where $_[$i] holds a tied value
+	return $i if $f->();
+    }
+    return -1;
+}
+
+sub lastidx (&@) {
+    my $f = shift;
+    for my $i (reverse 0 .. $#_) {
+	local *_ = \$_[$i];
+	return $i if $f->();
+    }
+    return -1;
+}
+EOP
 
 1;
 __END__
@@ -36,7 +115,9 @@ which is not going to go into C<List::Util>.
 
 All of the below functions are implementable in one line of Perl code. Using
 the functions from this module however should give slightly better performance
-as everything is implemented in C.
+as everything is implemented in C. The pure-Perl implementation of these
+functions only serves as a fallback in case the C portions of this module
+couldn't be compiled on this machine.
 
 =over 4
 
@@ -121,6 +202,10 @@ Returns C<-1> if no such item could be found.
 =head1 BUGS
 
 Bad namespace, but List::Util is already taken, quite obviously.
+
+=head1 VERSION
+
+This is version 0.02.
 
 =head1 SEE ALSO
 
