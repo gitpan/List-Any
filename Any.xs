@@ -427,6 +427,7 @@ false (code, ...)
 	CATCH_SET(oldcatch);
 	
 	done:
+	;
     }
     OUTPUT:
 	RETVAL

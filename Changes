@@ -1,5 +1,10 @@
 Revision history for Perl extension List::Any.
 
+0.03  Fri Jul  9 07:54:09 CEST 2004
+	- some compilers don't like the stale goto labels
+	  without any statement following. Fixed.
+	  (Robert Rothenberg <wlkngowl AT i-2000 DOT com>)
+
 0.02  Thu Jul  8 08:07:39 CEST 2004
 	- added Perl implementations of all functions 
 	  as a fallback 

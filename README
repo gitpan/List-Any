@@ -1,4 +1,4 @@
-List-Any version 0.02
+List-Any version 0.03
 =====================
 
 Provide the missing functionality from List::Util (see "SUGGESTED ADDITIONS" in its manpage).
@@ -16,11 +16,10 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-    No modules, but a C compiler
+    No modules, but a C compiler would be nice 
+    (although not strictly required)
 
 COPYRIGHT AND LICENCE
-
-Put the correct copyright and licence information here.
 
 Copyright (C) 2004 by Tassilo von Parseval
 
